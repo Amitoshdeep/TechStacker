@@ -11,7 +11,7 @@ projects = {
             "name": "Project 1",
             "description": "A simple C++ program that calculates student grades.",
             "instructions": "Follow the provided instructions.",
-            "code": "project1.cpp"
+            "code": "https://github.com/Amitoshdeep/TechStacker/blob/main/cpp_files/Project1.cpp"
         },
         "project2": {
             "name": "Project 2",
