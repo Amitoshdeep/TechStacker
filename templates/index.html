@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStacker</title>
+
+    <!-- LINKS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+<body>
+    <div class="main">
+        <!-- Form Section -->
+        <div class="form">
+            <h1>Tech Stacker</h1>
+            <form id="project-form">
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name" required><br><br>
+                
+                <label for="roll">Roll:</label><br>
+                <input type="text" id="roll" name="roll" required><br><br>
+                
+                <label for="sem">Semester:</label><br>
+                <select name="sem" id="sem">
+                    <option value="0">Select Semester</option>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                </select><br><br>
+                
+                <label for="project">Project:</label><br>
+                <select id="project" name="project" required>
+                    <option value="1">Project 1</option>
+                    <option value="2">Project 2</option>
+                    <option value="3">Project 3</option>
+                    <option value="4">Project 4</option>
+                </select><br><br>
+                
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        <!-- Project Output Section -->
+        <div class="output">
+            <h2>Project Output</h2>
+            <div class="cmd-output">
+            <pre id="cmd-output" style="text-align: left;">
+            <!-- Command output will be shown here -->
+            $ Project Successfully Compiled
+            $ Running...
+            $ Execution Complete
+            </pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
