@@ -22,7 +22,7 @@ void setBase() {
     cout << setbase(16) << setfill('*') << setw(10) << a << endl;
 }
 
-int main() {
+main() {
     char name[99];
     int roll;
     
@@ -34,6 +34,4 @@ int main() {
     setFill();
     setPrecision();
     setBase();
-
-    return 0;
 }
