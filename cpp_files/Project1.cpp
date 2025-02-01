@@ -25,15 +25,17 @@ void setBase() {
 int main() {
     string name;
     int roll;
-    
-    getline(cin, name);  // Taking input from stdin (handles spaces)
-    cin >> roll;  // Taking input for roll
-    
-    cout << name << " " << roll << endl;  // Print name and roll only
+
+    cin >> ws;   // ✅ Clears any leading whitespace before getline
+    getline(cin, name);  
+    cin >> roll;
+
+    cout << name << " " << roll << endl;  // ✅ No extra 0, only prints name and roll
+
     setW();
     setFill();
     setPrecision();
     setBase();
-    
+
     return 0;
 }
