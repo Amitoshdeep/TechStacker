@@ -32,9 +32,9 @@ int main(){
 	// cout<<"Arshdeep Kaur, 2410997058";
 
 
-//	setW();
-//	setFill();
-//	setPrecision();
+	setW();
+	setFill();
+	setPrecision();
 	setBase();
 	return 0;
 }
