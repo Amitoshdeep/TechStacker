@@ -29,12 +29,12 @@ void setBase(){
 int main(){
 //	cout<<"Anuj Babbar, 2410997052";
 //	cout<<"Ansh Sudan, 2410997047";
-	cout<<"Arshdeep Kaur, 2410997058";
+//	cout<<"Arshdeep Kaur, 2410997058";
 
 
-//	setW();
-//	setFill();
-//	setPrecision();
+	setW();
+	setFill();
+	setPrecision();
 	setBase();
 	return 0;
 }
