@@ -6,17 +6,12 @@ using namespace std;
 enum Operations { ADD = '+', SUB = '-', MUL = '*', EQ = 'E', INC = 'I', DEC = 'D', EXIT = '7' };
 
 int main() {
-    srand(time(0));
-    time_t now = time(0);
-    char* dt = ctime(&now);
-    
     float num1 = 300 + (rand() % 201); // Random float between 300 and 500
     float num2 = 300 + (rand() % 201); // Random float between 300 and 500
     float res;
     char op;
     int temp;
-    
-    cout << "Timestamp: " << dt;
+
     cout << "Generated Num1: " << num1 << endl;
     cout << "Generated Num2: " << num2 << endl;
 
