@@ -8,8 +8,8 @@ enum Operations { ADD = '+', SUB = '-', MUL = '*', EQ = 'E', INC = 'I', DEC = 'D
 int main() {
     srand(time(0));
     
-    float num1 = (rand() % 100) / 10.0; // Random float between 0 and 10
-    float num2 = (rand() % 100) / 10.0; // Random float between 0 and 10
+    float num1 = (rand() % 100) / 200.0; // Random float between 0 and 10
+    float num2 = (rand() % 100) / 150.0; // Random float between 0 and 10
     float res;
     char op;
     int temp;
