@@ -29,7 +29,7 @@ main() {
     cin.getline(name, 99);  // Taking input from stdin (to handle spaces in name)
     cin >> roll;  // Taking input for roll
     
-    cout << name << " " << roll << endl;  // Printing the input
+    cout << name << " " << roll << "\n" ;  // Printing the input
     setW();
     setFill();
     setPrecision();
