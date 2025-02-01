@@ -23,10 +23,12 @@ void setBase() {
 }
 
 int main() {
-    cout << "Anuj Babbar, 2410997052" << endl;
-    cout << "Ansh Sudan, 2410997047" << endl;
-    cout << "Arshdeep Kaur, 2410997058" << endl;
-
+    string name;
+    int roll;
+    
+    cin >> name >> roll;  // Taking input from stdin
+    
+    cout << name << " " << roll << endl;  // Printing the input
     setW();
     setFill();
     setPrecision();
