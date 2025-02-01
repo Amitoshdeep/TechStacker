@@ -1,5 +1,5 @@
-#include<iostream>
-#include<iomanip>
+#include <iostream>
+#include <iomanip>
 using namespace std;
 
 void setW() {
@@ -22,16 +22,18 @@ void setBase() {
     cout << setbase(16) << setfill('*') << setw(10) << a << endl;
 }
 
-main() {
-    char name[99];
+int main() {
+    string name;
     int roll;
     
-    cin.getline(name, 99);  // Taking input from stdin (to handle spaces in name)
+    getline(cin, name);  // Taking input from stdin (handles spaces)
     cin >> roll;  // Taking input for roll
     
-    cout << name << " " << roll << "\n" ;  // Printing the input
+    cout << name << " " << roll << endl;  // Print name and roll only
     setW();
     setFill();
     setPrecision();
     setBase();
+    
+    return 0;
 }
