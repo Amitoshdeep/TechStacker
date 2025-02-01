@@ -26,7 +26,7 @@ int main() {
             case 5: op = DEC; break;
         }
 
-        cout << "\nSelected OP: " << op << endl;
+        cout << "\nSelect OP ( + , - , / , * , E , I , D , 7 to exit): " << op << endl;
 
         switch (op) {
             case ADD:
