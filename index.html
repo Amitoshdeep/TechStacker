@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStacker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        /* Loader Style */
+        #loader {
+            display: none;
+            border: 4px solid #f3f3f3;  /* Light grey background */
+            border-top: 4px solid #3498db; /* Blue color for the spinner */
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        /* Spin animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="form">
+            <h1>Tech Stackers</h1>
+            <form id="userForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br><br>
+                
+                <label for="roll">Roll No:</label>
+                <input type="number" id="roll" name="roll" required><br><br>
+                
+                <label for="batchYear">Select Batch Year:</label>
+                <select id="batchYear" name="batchYear" required>
+                    <option value="2024">2024</option>
+                </select><br><br>
+
+                <label for="semester">Select Semester:</label>
+                <select id="semester" name="semester" required>
+                    <option value="2">2</option>
+                </select><br><br>
+
+                <label for="project">Select Project:</label>
+                <select id="project" name="project">
+                    <option value="project1">Project 1</option>
+                    <option value="project2">Project 2</option>
+                    <option value="project3">Project 3</option>
+                    <option value="project4">Project 4</option>
+                </select><br><br>
+                
+                <button type="button" onclick="runCode()">Run C++ Code</button>
+                <!-- Loader spinner -->
+                <div id="loader"></div>
+            </form>
+
+            <div id="output">Click the button to run the code.</div>
+        </div>
+
+        <div id="donation-section" style="text-align: center; margin-top: 30px; font-family: Arial, sans-serif;">
+            <h2>Support Us</h2>
+            <p>If you'd like to support us, consider making a donation.</p>
+            
+            <!-- Display Paytm QR Code -->
+            <img src="paytm1.png" alt="Paytm QR Code" style="width: 200px; border-radius: 8px; box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);" oncontextmenu="return false;">
+        
+            <p>Or donate directly by sending money to the Paytm UPI ID:</p>
+            <p style="color: green;"><strong>8544890833@ptyes</strong></p>
+            
+            <p>Open the Paytm app, go to 'Send Money', and either scan the QR code or enter the above UPI ID to complete your donation.</p>
+            <p>We appreciate your support!</p>
+            <p><small><em>This QR code is for donations only. Any misuse of this information will be reported.</em></small></p>
+        </div>
+    </div>
+        
+    <script>
+    async function runCode() {
+        let name = document.getElementById("name").value.trim();
+        let roll = document.getElementById("roll").value.trim();
+        let batchYear = document.getElementById("batchYear").value;
+        let semester = document.getElementById("semester").value;
+        let project = document.getElementById("project").value;
+    
+        // Show loader
+        document.getElementById("loader").style.display = "inline-block";
+
+        // Check if essential fields are empty
+        if (!name || !roll) {
+            document.getElementById("output").innerHTML = `<pre><code>Error: Name or Roll No. cannot be empty.</code></pre>`;
+            document.getElementById("loader").style.display = "none"; // Hide loader
+            return;
+        }
+    
+        if (!batchYear || !semester || !project) {
+            document.getElementById("output").innerHTML = `<pre><code>Error: Please fill all the fields.</code></pre>`;
+            document.getElementById("loader").style.display = "none"; // Hide loader
+            return;
+        }
+    
+        const timestamp = new Date().getTime(); // Generate timestamp
+    
+        // Construct the URL with timestamp to avoid caching
+        const githubRawUrl = `https://raw.githubusercontent.com/Amitoshdeep/TechStacker/main/cpp_files/${batchYear}/${semester}/${project}.cpp?t=${timestamp}`;
+    
+        try {
+            // Fetch C++ Code from GitHub
+            let response = await fetch(githubRawUrl);
+    
+            // Handle non-OK response
+            if (!response.ok) {
+                throw new Error(`Failed to fetch C++ code. Status: ${response.status}`);
+            }
+    
+            let cppCode = await response.text();
+    
+            let apiResponse = await fetch("https://emkc.org/api/v2/piston/execute", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    language: "cpp",
+                    version: "10.2.0",
+                    files: [{ content: cppCode }]
+                })
+            });
+    
+            if (!apiResponse.ok) {
+                throw new Error(`API request failed. Status: ${apiResponse.status}`);
+            }
+    
+            let data = await apiResponse.json();
+            console.log("API Response: ", data);
+    
+            // Handle possible missing output or error from the API
+            let cppOutput = data.run ? data.run.output : "Error: No output or execution error.";
+    
+            // 🔥 Format the output with <pre> and <code> for proper formatting
+            let finalOutput = ` 
+                <pre style="font-size: 14px;"><code>
+${name} ${roll}
+    
+${cppOutput}
+                </code></pre>
+            `;
+    
+            document.getElementById("output").innerHTML = finalOutput;
+    
+        } catch (error) {
+            document.getElementById("output").innerHTML = `<pre><code>Error: ${error.message}</code></pre>`;
+        } finally {
+            // Hide loader after the request is completed
+            document.getElementById("loader").style.display = "none";
+        }
+    }
+    </script>
+</body>
+</html>
