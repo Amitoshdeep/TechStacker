@@ -23,7 +23,7 @@ void setBase() {
 }
 
 int main() {
-    string name;
+    char[99] name;
     int roll;
     
     cin >> name >> roll;  // Taking input from stdin
