@@ -23,10 +23,11 @@ void setBase() {
 }
 
 int main() {
-    char[99] name;
+    char name[99];
     int roll;
     
-    cin >> name >> roll;  // Taking input from stdin
+    cin.getline(name, 99);  // Taking input from stdin (to handle spaces in name)
+    cin >> roll;  // Taking input for roll
     
     cout << name << " " << roll << endl;  // Printing the input
     setW();
@@ -36,4 +37,3 @@ int main() {
 
     return 0;
 }
-
