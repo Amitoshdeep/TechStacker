@@ -1,75 +1,74 @@
-#include<iostream>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
-int main(){
-	float num1 , num2 , res;
-	char op;
-	int temp;
-	
-	cout<<"Enter The Num1: ";
-	cin>>num1;
-	
-	cout<<"Enter The Num2: ";
-	cin>>num2;
-	
-	do{
-		
-	cout<<"\nEnter OP ( + , - , * , / , E(Equality), I(Incriment) , D(Decriment) , 7 (exit) ): ";
-	cin>>op;
-	
-	
-	
-	switch(op){
-		case '+':
-			res = num1 + num2 ;
-			cout<<"\n Sum -> "<< res;
-			break;
-		case '-':
-			res = num1 - num2;
-			cout<<"\n Sub -> "<<res;
-			break;
-		case '*':
-			res = num1 * num2;
-			cout<<"\n Mult -> "<<res;
-			break;
-		case 'E':
-			if(num1 == num2)
-				cout<<"\n Equal";
-			else{
-				cout<<"Not Equal";
-			}
-			break;
-		case 'I':
-			
-			cout<<"Enter the Num for incriment (1 or 2): ";
-			cin>>temp;
-			
-			if(temp == 1){
-				cout<<"\n incriment of Num1: "<<++num1;
-			}else if(temp == 2){
-				cout<<"\n incriment of Num2: "<<++num2;
-			}
-			break;
-		
-		case 'D':
-			cout<<"Enter the Num for Decriment (1 or 2): ";
-			cin>>temp;
-			
-			if(temp == 1){
-				cout<<"\n incriment of Num1: "<<--num1;
-			}else if(temp == 2){
-				cout<<"\n incriment of Num2: "<<--num2;
-			}
-			break;
-		
-		case '7':
-			exit(0);
-			break;
-				
-		default:
-			cout<<"wrong OP";
-		}
-	}while(op != '7');
-	
-	return 0;	
+enum Operations { ADD = '+', SUB = '-', MUL = '*', EQ = 'E', INC = 'I', DEC = 'D', EXIT = '7' };
+
+int main() {
+    srand(time(0));
+    time_t now = time(0);
+    char* dt = ctime(&now);
+    
+    float num1 = 300 + (rand() % 201); // Random float between 300 and 500
+    float num2 = 300 + (rand() % 201); // Random float between 300 and 500
+    float res;
+    char op;
+    int temp;
+    
+    cout << "Timestamp: " << dt;
+    cout << "Generated Num1: " << num1 << endl;
+    cout << "Generated Num2: " << num2 << endl;
+
+    do {
+        int randOp = rand() % 6; // Random operation selection
+        switch (randOp) {
+            case 0: op = ADD; break;
+            case 1: op = SUB; break;
+            case 2: op = MUL; break;
+            case 3: op = EQ; break;
+            case 4: op = INC; break;
+            case 5: op = DEC; break;
+        }
+
+        cout << "\nSelected OP: " << op << endl;
+
+        switch (op) {
+            case ADD:
+                res = num1 + num2;
+                cout << "Sum -> " << res << endl;
+                break;
+            case SUB:
+                res = num1 - num2;
+                cout << "Sub -> " << res << endl;
+                break;
+            case MUL:
+                res = num1 * num2;
+                cout << "Mult -> " << res << endl;
+                break;
+            case EQ:
+                cout << (num1 == num2 ? "Equal" : "Not Equal") << endl;
+                break;
+            case INC:
+                temp = (rand() % 2) + 1;
+                cout << "Incrementing Num" << temp << endl;
+                if (temp == 1) {
+                    cout << "Incremented Num1: " << ++num1 << endl;
+                } else {
+                    cout << "Incremented Num2: " << ++num2 << endl;
+                }
+                break;
+            case DEC:
+                temp = (rand() % 2) + 1;
+                cout << "Decrementing Num" << temp << endl;
+                if (temp == 1) {
+                    cout << "Decremented Num1: " << --num1 << endl;
+                } else {
+                    cout << "Decremented Num2: " << --num2 << endl;
+                }
+                break;
+        }
+    } while (op != EXIT);
+    
+    return 0;
 }
