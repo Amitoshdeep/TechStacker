@@ -64,6 +64,30 @@
             font-family: monospace;
             white-space: pre-wrap;
         }
+
+        /* Donation Table Style */
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Donation Table Section */
+        #donation-table-section {
+            text-align: center;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
@@ -117,7 +141,34 @@
             <p>We appreciate your support!</p>
             <p><small><em>This QR code is for donations only. Any misuse of this information will be reported.</em></small></p>
         </div>
-    
+        
+        <!-- Donation Table Section -->
+        <div id="donation-table-section">
+            <h3>Donations Received</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>$50</td>
+                        <td>01/01/2025</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>$30</td>
+                        <td>01/02/2025</td>
+                    </tr>
+                    <!-- More rows can be added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
     
     </div>
 
