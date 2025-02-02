@@ -137,20 +137,21 @@
     const githubRawUrl = `https://raw.githubusercontent.com/Amitoshdeep/TechStacker/main/cpp_files/${batchYear}/${semester}/${project}.cpp?t=${timestamp}`;
 
     try {
-        // Use the Netlify serverless function to fetch C++ code
-        const netlifyFunctionUrl = `https://techstek.netlify.app//.netlify/functions/runCodeProxy?githubUrl=${githubRawUrl}`;
+        // Use the Netlify serverless function to fetch C++ code and execute it
+        const netlifyFunctionUrl = `https://<your-site-name>.netlify.app/.netlify/functions/runCodeProxy?githubUrl=${githubRawUrl}`;
         let response = await fetch(netlifyFunctionUrl);
 
         if (!response.ok) throw new Error(`Failed to fetch data from Netlify function. Status: ${response.status}`);
         
         let data = await response.json();
-        
-        if (data.code) {
-            // Code fetched successfully, show the result
+
+        // Check if there's an error or the result (output of the code)
+        if (data.output) {
+            // Code executed successfully, display output
             outputDiv.innerHTML = `<pre style="font-size: 14px;"><code>${name} ${roll}\n\n</code></pre>`;
-            outputDiv.innerHTML += `<pre><code>${data.code}</code></pre>`;
+            outputDiv.innerHTML += `<pre><code>${data.output}</code></pre>`;
         } else {
-            // Error in response, show the error
+            // Error in execution, show the error message
             outputDiv.innerHTML = `<pre><code>Error: ${data.error}</code></pre>`;
         }
 
@@ -161,6 +162,7 @@
         loader.style.display = "none";
     }
 }
+
     </script>
 </body>
 </html>
