@@ -6,17 +6,24 @@ using namespace std;
 enum Operations { ADD = '+', SUB = '-', MUL = '*', EQ = 'E', INC = 'I', DEC = 'D', EXIT = '7' };
 
 int main() {
+    srand(time(0));  // Initialize random seed
     
     float num1 = 300 + (rand() % 201); // Random float between 300 and 500
     float num2 = 300 + (rand() % 201); // Random float between 300 and 500
     float res;
     char op;
     int temp;
-    
+
     cout << "Enter Num1: " << num1 << endl;
     cout << "Enter Num2: " << num2 << endl;
 
+    int counter = 0;  // Counter to limit random operations to 4
     do {
+        if (counter >= 4) {
+            op = EXIT;  // Exit after 4 operations
+            break;
+        }
+        
         int randOp = rand() % 6; // Random operation selection
         switch (randOp) {
             case 0: op = ADD; break;
@@ -25,10 +32,9 @@ int main() {
             case 3: op = EQ; break;
             case 4: op = INC; break;
             case 5: op = DEC; break;
-            case 6: op = '7'; break;
         }
 
-        cout << "\nSelect OP\n(+ , -, /, *, E, I, D, 7(exit): " << op << endl;
+        cout << "\nSelect OP\n(+ , -, *, E, I, D, 7(exit): " << op << endl;
 
         switch (op) {
             case ADD:
@@ -65,7 +71,9 @@ int main() {
                 }
                 break;
         }
+
+        counter++;  // Increment the counter after each random operation
     } while (op != EXIT);
-    
+
     return 0;
 }
