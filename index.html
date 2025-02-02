@@ -41,11 +41,24 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
+        /* Output box */
+        #output {
+            font-family: monospace;
+            white-space: pre-wrap;
+            background: black;
+            padding: 10px;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+        }
+
         /* Button style */
         #fullscreen-btn {
             position: relative;
             z-index: 1000;
         }
+
 
         #output {
             font-family: monospace;
@@ -111,30 +124,37 @@
 
     <script>
     async function runCode() {
-        const name = document.getElementById("name").value.trim();
-        const roll = document.getElementById("roll").value.trim();
-        const batchYear = document.getElementById("batchYear").value;
-        const semester = document.getElementById("semester").value;
-        const project = document.getElementById("project").value;
-        const outputDiv = document.getElementById("output");
-        const loader = document.getElementById("loader");
+        let name = document.getElementById("name").value.trim();
+        let roll = document.getElementById("roll").value.trim();
+        let batchYear = document.getElementById("batchYear").value;
+        let semester = document.getElementById("semester").value;
+        let project = document.getElementById("project").value;
+        let outputDiv = document.getElementById("output");
+        let loader = document.getElementById("loader");
         
         outputDiv.innerHTML = "";
         loader.style.display = "inline-block";
-        
+
         if (!name || !roll) {
             outputDiv.innerHTML = `<pre><code>Error: Name or Roll No. cannot be empty.</code></pre>`;
             loader.style.display = "none";
             return;
         }
-        
-        const githubRawUrl = `https://raw.githubusercontent.com/Amitoshdeep/TechStacker/main/cpp_files/${batchYear}/${semester}/${project}.cpp`;
-        
+
+        if (!batchYear || !semester || !project) {
+            outputDiv.innerHTML = `<pre><code>Error: Please fill all the fields.</code></pre>`;
+            loader.style.display = "none";
+            return;
+        }
+
+        const timestamp = new Date().getTime();
+        const githubRawUrl = `https://raw.githubusercontent.com/Amitoshdeep/TechStacker/main/cpp_files/${batchYear}/${semester}/${project}.cpp?t=${timestamp}`;
+
         try {
-            let response = await fetch(githubRawUrl, { cache: "no-store" });
+            let response = await fetch(githubRawUrl);
             if (!response.ok) throw new Error(`Failed to fetch C++ code. Status: ${response.status}`);
             let cppCode = await response.text();
-            
+
             let apiResponse = await fetch("https://emkc.org/api/v2/piston/execute", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -144,12 +164,13 @@
             if (!apiResponse.ok) throw new Error(`API request failed. Status: ${apiResponse.status}`);
             let data = await apiResponse.json();
             let cppOutput = data.run ? data.run.output : "Error: No output or execution error.";
-            
+
             outputDiv.innerHTML = `<pre style="font-size: 14px;"><code>${name} ${roll}\n\n${cppOutput}</code></pre>`;
+
         } catch (error) {
             outputDiv.innerHTML = `<pre><code>Error: ${error.message}</code></pre>`;
         } finally {
-            loader.style.display = "none";
+            loader.style.display = "none";  // Hide loader when output is fully rendered or error occurs
         }
     }
 
