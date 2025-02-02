@@ -13,8 +13,8 @@ int main() {
     char op;
     int temp;
     
-    cout << "Eneter Num1: " << num1 << endl;
-    cout << "Eneter Num2: " << num2 << endl;
+    cout << "Enter Num1: " << num1 << endl;
+    cout << "Enter Num2: " << num2 << endl;
 
     do {
         int randOp = rand() % 6; // Random operation selection
