@@ -63,11 +63,12 @@ button:hover {
 
 #output {
     background: #222; 
-    color: #0f0; 
+    color: white; 
     padding: 10px; 
     margin-top: 10px; 
     white-space: pre-wrap; 
 }
+
 
 #donation-section {
     text-align: center;

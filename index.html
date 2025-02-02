@@ -24,6 +24,31 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Fullscreen output styling */
+        #output.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            z-index: 999;
+            overflow: auto;
+            padding: 20px;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Button style */
+        #fullscreen-btn {
+            position: relative;
+            z-index: 1000; /* Ensure the button is always above the output */
+        }
+
+        #output {
+            font-family: monospace;
+        }
     </style>
 </head>
 <body>
@@ -56,11 +81,15 @@
                 </select><br><br>
                 
                 <button type="button" onclick="runCode()">Run C++ Code</button>
+                
                 <!-- Loader spinner -->
                 <div id="loader"></div>
             </form>
 
             <div id="output">Click the button to run the code.</div>
+
+            <!-- Fullscreen button -->
+            <button id="fullscreen-btn" type="button" onclick="toggleOutputFullscreen()">Toggle Fullscreen Output</button>
         </div>
 
         <div id="donation-section" style="text-align: center; margin-top: 30px; font-family: Arial, sans-serif;">
@@ -81,82 +110,79 @@
         
     <script>
     async function runCode() {
-        let name = document.getElementById("name").value.trim();
-        let roll = document.getElementById("roll").value.trim();
-        let batchYear = document.getElementById("batchYear").value;
-        let semester = document.getElementById("semester").value;
-        let project = document.getElementById("project").value;
+    let name = document.getElementById("name").value.trim();
+    let roll = document.getElementById("roll").value.trim();
+    let batchYear = document.getElementById("batchYear").value;
+    let semester = document.getElementById("semester").value;
+    let project = document.getElementById("project").value;
+    let outputDiv = document.getElementById("output");
+    let loader = document.getElementById("loader");
     
-        // Show loader
-        document.getElementById("loader").style.display = "inline-block";
+    outputDiv.innerHTML = "";
+    loader.style.display = "inline-block";
 
-        // Check if essential fields are empty
-        if (!name || !roll) {
-            document.getElementById("output").innerHTML = `<pre><code>Error: Name or Roll No. cannot be empty.</code></pre>`;
-            document.getElementById("loader").style.display = "none"; // Hide loader
-            return;
-        }
-    
-        if (!batchYear || !semester || !project) {
-            document.getElementById("output").innerHTML = `<pre><code>Error: Please fill all the fields.</code></pre>`;
-            document.getElementById("loader").style.display = "none"; // Hide loader
-            return;
-        }
-    
-        const timestamp = new Date().getTime(); // Generate timestamp
-    
-        // Construct the URL with timestamp to avoid caching
-        const githubRawUrl = `https://raw.githubusercontent.com/Amitoshdeep/TechStacker/main/cpp_files/${batchYear}/${semester}/${project}.cpp?t=${timestamp}`;
-    
-        try {
-            // Fetch C++ Code from GitHub
-            let response = await fetch(githubRawUrl);
-    
-            // Handle non-OK response
-            if (!response.ok) {
-                throw new Error(`Failed to fetch C++ code. Status: ${response.status}`);
-            }
-    
-            let cppCode = await response.text();
-    
-            let apiResponse = await fetch("https://emkc.org/api/v2/piston/execute", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    language: "cpp",
-                    version: "10.2.0",
-                    files: [{ content: cppCode }]
-                })
-            });
-    
-            if (!apiResponse.ok) {
-                throw new Error(`API request failed. Status: ${apiResponse.status}`);
-            }
-    
-            let data = await apiResponse.json();
-            console.log("API Response: ", data);
-    
-            // Handle possible missing output or error from the API
-            let cppOutput = data.run ? data.run.output : "Error: No output or execution error.";
-    
-            // 🔥 Format the output with <pre> and <code> for proper formatting
-            let finalOutput = ` 
-                <pre style="font-size: 14px;"><code>
-${name} ${roll}
-    
-${cppOutput}
-                </code></pre>
-            `;
-    
-            document.getElementById("output").innerHTML = finalOutput;
-    
-        } catch (error) {
-            document.getElementById("output").innerHTML = `<pre><code>Error: ${error.message}</code></pre>`;
-        } finally {
-            // Hide loader after the request is completed
-            document.getElementById("loader").style.display = "none";
-        }
+    if (!name || !roll) {
+        outputDiv.innerHTML = `<pre><code>Error: Name or Roll No. cannot be empty.</code></pre>`;
+        loader.style.display = "none";
+        return;
     }
+
+    if (!batchYear || !semester || !project) {
+        outputDiv.innerHTML = `<pre><code>Error: Please fill all the fields.</code></pre>`;
+        loader.style.display = "none";
+        return;
+    }
+
+    const timestamp = new Date().getTime();
+    const githubRawUrl = `https://raw.githubusercontent.com/Amitoshdeep/TechStacker/main/cpp_files/${batchYear}/${semester}/${project}.cpp?t=${timestamp}`;
+
+    try {
+        let response = await fetch(githubRawUrl);
+        if (!response.ok) throw new Error(`Failed to fetch C++ code. Status: ${response.status}`);
+        let cppCode = await response.text();
+
+        let apiResponse = await fetch("https://emkc.org/api/v2/piston/execute", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ language: "cpp", version: "10.2.0", files: [{ content: cppCode }] })
+        });
+        
+        if (!apiResponse.ok) throw new Error(`API request failed. Status: ${apiResponse.status}`);
+        let data = await apiResponse.json();
+        let cppOutput = data.run ? data.run.output : "Error: No output or execution error.";
+
+        outputDiv.innerHTML = `<pre style="font-size: 14px;"><code>${name} ${roll}\n\n</code></pre>`;
+        
+        let index = 0;
+        function typeWriterEffect() {
+            if (index < cppOutput.length) {
+                outputDiv.innerHTML += cppOutput.charAt(index);
+                index++;
+                setTimeout(typeWriterEffect, 10);
+            } else {
+                loader.style.display = "none";
+            }
+        }
+        
+        typeWriterEffect();
+    } catch (error) {
+        outputDiv.innerHTML = `<pre><code>Error: ${error.message}</code></pre>`;
+        loader.style.display = "none";
+    }
+}
+
+function toggleOutputFullscreen() {
+    let outputDiv = document.getElementById("output");
+    let fullscreenBtn = document.getElementById("fullscreen-btn");
+    outputDiv.classList.toggle("fullscreen");
+
+    // Keep the button visible outside the fullscreen mode
+    if (outputDiv.classList.contains("fullscreen")) {
+        fullscreenBtn.style.zIndex = "1000";  // Keep button on top
+    } else {
+        fullscreenBtn.style.zIndex = "999";  // Button back to normal
+    }
+}
     </script>
 </body>
 </html>
