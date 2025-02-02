@@ -110,79 +110,78 @@
         
     <script>
     async function runCode() {
-    let name = document.getElementById("name").value.trim();
-    let roll = document.getElementById("roll").value.trim();
-    let batchYear = document.getElementById("batchYear").value;
-    let semester = document.getElementById("semester").value;
-    let project = document.getElementById("project").value;
-    let outputDiv = document.getElementById("output");
-    let loader = document.getElementById("loader");
-    
-    outputDiv.innerHTML = "";
-    loader.style.display = "inline-block";
-
-    if (!name || !roll) {
-        outputDiv.innerHTML = `<pre><code>Error: Name or Roll No. cannot be empty.</code></pre>`;
-        loader.style.display = "none";
-        return;
-    }
-
-    if (!batchYear || !semester || !project) {
-        outputDiv.innerHTML = `<pre><code>Error: Please fill all the fields.</code></pre>`;
-        loader.style.display = "none";
-        return;
-    }
-
-    const timestamp = new Date().getTime();
-    const githubRawUrl = `https://raw.githubusercontent.com/Amitoshdeep/TechStacker/main/cpp_files/${batchYear}/${semester}/${project}.cpp?t=${timestamp}`;
-
-    try {
-        let response = await fetch(githubRawUrl);
-        if (!response.ok) throw new Error(`Failed to fetch C++ code. Status: ${response.status}`);
-        let cppCode = await response.text();
-
-        let apiResponse = await fetch("https://emkc.org/api/v2/piston/execute", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ language: "cpp", version: "10.2.0", files: [{ content: cppCode }] })
-        });
+        let name = document.getElementById("name").value.trim();
+        let roll = document.getElementById("roll").value.trim();
+        let batchYear = document.getElementById("batchYear").value;
+        let semester = document.getElementById("semester").value;
+        let project = document.getElementById("project").value;
+        let outputDiv = document.getElementById("output");
+        let loader = document.getElementById("loader");
         
-        if (!apiResponse.ok) throw new Error(`API request failed. Status: ${apiResponse.status}`);
-        let data = await apiResponse.json();
-        let cppOutput = data.run ? data.run.output : "Error: No output or execution error.";
+        outputDiv.innerHTML = "";
+        loader.style.display = "inline-block";
 
-        outputDiv.innerHTML = `<pre style="font-size: 14px;"><code>${name} ${roll}\n\n</code></pre>`;
-        
-        let index = 0;
-        function typeWriterEffect() {
-            if (index < cppOutput.length) {
-                outputDiv.innerHTML += cppOutput.charAt(index);
-                index++;
-                setTimeout(typeWriterEffect, 10);
-            } else {
-                loader.style.display = "none";
-            }
+        if (!name || !roll) {
+            outputDiv.innerHTML = `<pre><code>Error: Name or Roll No. cannot be empty.</code></pre>`;
+            loader.style.display = "none";
+            return;
         }
-        
-        typeWriterEffect();
-    } catch (error) {
-        outputDiv.innerHTML = `<pre><code>Error: ${error.message}</code></pre>`;
-        loader.style.display = "none";
-    }
-}
 
-function toggleOutputFullscreen() {
-    let outputDiv = document.getElementById("output");
-    let fullscreenBtn = document.getElementById("fullscreen-btn");
-    outputDiv.classList.toggle("fullscreen");
+        if (!batchYear || !semester || !project) {
+            outputDiv.innerHTML = `<pre><code>Error: Please fill all the fields.</code></pre>`;
+            loader.style.display = "none";
+            return;
+        }
 
-    // Keep the button visible outside the fullscreen mode
-    if (outputDiv.classList.contains("fullscreen")) {
-        fullscreenBtn.style.zIndex = "1000";  // Keep button on top
-    } else {
-        fullscreenBtn.style.zIndex = "999";  // Button back to normal
+        const timestamp = new Date().getTime();
+        const githubRawUrl = `https://raw.githubusercontent.com/Amitoshdeep/TechStacker/main/cpp_files/${batchYear}/${semester}/${project}.cpp?t=${timestamp}`;
+
+        try {
+            let response = await fetch(githubRawUrl);
+            if (!response.ok) throw new Error(`Failed to fetch C++ code. Status: ${response.status}`);
+            let cppCode = await response.text();
+
+            // JDoodle API Request
+            let apiResponse = await fetch("https://api.jdoodle.com/v1/execute", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    "script": cppCode,
+                    "language": "cpp",
+                    "versionIndex": "0",
+                    "clientId": "cc37fb6bddfd6226fcd1d261f516ad96", // Use your JDoodle client ID
+                    "clientSecret": "1b808588b919bc551d39d83082178fec59569e78f490e9987d8bbc1023a3f726" // Use your JDoodle client secret
+                })
+            });
+
+            if (!apiResponse.ok) throw new Error(`API request failed. Status: ${apiResponse.status}`);
+            let data = await apiResponse.json();
+            let cppOutput = data.output || "Error: No output or execution error.";
+
+            outputDiv.innerHTML = `<pre style="font-size: 14px;"><code>${name} ${roll}\n\n</code></pre>`;
+
+            // Directly set the output if it's large
+            outputDiv.innerHTML += `<pre><code>${cppOutput}</code></pre>`;
+            loader.style.display = "none";  // Hide loader when output is fully rendered
+
+        } catch (error) {
+            outputDiv.innerHTML = `<pre><code>Error: ${error.message}</code></pre>`;
+            loader.style.display = "none";
+        }
     }
-}
+
+    function toggleOutputFullscreen() {
+        let outputDiv = document.getElementById("output");
+        let fullscreenBtn = document.getElementById("fullscreen-btn");
+        outputDiv.classList.toggle("fullscreen");
+
+        // Keep the button visible outside the fullscreen mode
+        if (outputDiv.classList.contains("fullscreen")) {
+            fullscreenBtn.style.zIndex = "1000";  // Keep button on top
+        } else {
+            fullscreenBtn.style.zIndex = "999";  // Button back to normal
+        }
+    }
     </script>
 </body>
 </html>
