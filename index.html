@@ -109,7 +109,7 @@
     </div>
         
     <script>
-    async function runCode() {
+   async function runCode() {
     let name = document.getElementById("name").value.trim();
     let roll = document.getElementById("roll").value.trim();
     let batchYear = document.getElementById("batchYear").value;
@@ -137,29 +137,40 @@
     const githubRawUrl = `https://raw.githubusercontent.com/Amitoshdeep/TechStacker/main/cpp_files/${batchYear}/${semester}/${project}.cpp?t=${timestamp}`;
 
     try {
-        // Use the Netlify serverless function to fetch C++ code and execute it
-        const netlifyFunctionUrl = `https://<your-site-name>.netlify.app/.netlify/functions/runCodeProxy?githubUrl=${githubRawUrl}`;
+        // Properly encode the GitHub URL before using it in the query string
+        const encodedGithubUrl = encodeURIComponent(githubRawUrl);
+        const netlifyFunctionUrl = `https://techstek.netlify.app/.netlify/functions/runCodeProxy?githubUrl=${encodedGithubUrl}`;
+        
         let response = await fetch(netlifyFunctionUrl);
-
         if (!response.ok) throw new Error(`Failed to fetch data from Netlify function. Status: ${response.status}`);
         
         let data = await response.json();
 
-        // Check if there's an error or the result (output of the code)
         if (data.output) {
-            // Code executed successfully, display output
             outputDiv.innerHTML = `<pre style="font-size: 14px;"><code>${name} ${roll}\n\n</code></pre>`;
             outputDiv.innerHTML += `<pre><code>${data.output}</code></pre>`;
         } else {
-            // Error in execution, show the error message
             outputDiv.innerHTML = `<pre><code>Error: ${data.error}</code></pre>`;
         }
 
-        loader.style.display = "none"; // Hide the loader when done
-
+        loader.style.display = "none";
     } catch (error) {
         outputDiv.innerHTML = `<pre><code>Error: ${error.message}</code></pre>`;
         loader.style.display = "none";
+    }
+}
+
+
+function toggleOutputFullscreen() {
+    let outputDiv = document.getElementById("output");
+    let fullscreenBtn = document.getElementById("fullscreen-btn");
+    outputDiv.classList.toggle("fullscreen");
+
+    // Keep the button visible outside the fullscreen mode
+    if (outputDiv.classList.contains("fullscreen")) {
+        fullscreenBtn.style.zIndex = "1000";  // Keep button on top
+    } else {
+        fullscreenBtn.style.zIndex = "999";  // Button back to normal
     }
 }
 
