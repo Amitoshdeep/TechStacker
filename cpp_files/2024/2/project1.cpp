@@ -13,8 +13,8 @@ int main() {
     char op;
     int temp;
     
-    cout << "Generated Num1: " << num1 << endl;
-    cout << "Generated Num2: " << num2 << endl;
+    cout << "Eneter Num1: " << num1 << endl;
+    cout << "Eneter Num2: " << num2 << endl;
 
     do {
         int randOp = rand() % 6; // Random operation selection
@@ -25,9 +25,10 @@ int main() {
             case 3: op = EQ; break;
             case 4: op = INC; break;
             case 5: op = DEC; break;
+            case 6: op = '7'; break;
         }
 
-        cout << "\nSelected OP: " << op << endl;
+        cout << "\nSelect OP\n(+ , -, /, *, E, I, D, 7(exit): " << op << endl;
 
         switch (op) {
             case ADD:
