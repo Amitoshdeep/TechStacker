@@ -34,7 +34,7 @@ int main() {
             case 5: op = DEC; break;
         }
 
-        cout << "\nSelect OP\n(+ , -, *, E, I, D, 7(exit): " << op << endl;
+        cout << "\nSelect OP\n(+ , -, *, / , E, I, D, 7(exit): " << op << endl;
 
         switch (op) {
             case ADD:
