@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 void swapByValue(int a, int b) { int temp = a; a = b; b = temp; }  // No effect outside
@@ -8,9 +10,11 @@ void swapByAddress(int *a, int *b) { int temp = *a; *a = *b; *b = temp; }  // Us
 void swapByReference(int &a, int &b) { int temp = a; a = b; b = temp; }  // Uses references
 
 int main() {
-    int x, y;
-    cout << "Enter two numbers: ";
-    cin >> x >> y;
+    srand(time(0));  // Seed for randomness
+    int x = rand() % 100 + 1;  // Random number (1-100)
+    int y = rand() % 100 + 1;  // Random number (1-100)
+
+    cout << "Original Numbers: x=" << x << " y=" << y << endl;
 
     swapByValue(x, y);
     cout << "After swapByValue: x=" << x << " y=" << y << " (No change)\n";
@@ -23,4 +27,3 @@ int main() {
 
     return 0;
 }
-
