@@ -100,3 +100,85 @@ button:hover {
 #donation-section p {
     margin-bottom: 15px;
 }
+
+/* Loader Style */
+#loader {
+    display: none;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+}
+
+/* Spin animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Fullscreen output styling */
+#output.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    color: white;
+    z-index: 999;
+    overflow: auto;
+    padding: 20px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Output box */
+#output {
+    font-family: monospace;
+    white-space: pre-wrap;
+    background: black;
+    padding: 10px;
+    border-radius: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+}
+
+/* Button style */
+#fullscreen-btn {
+    position: relative;
+    z-index: 1000;
+}
+
+
+#output {
+    font-family: monospace;
+    white-space: pre-wrap;
+}
+
+/* Donation Table Style */
+table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+table, th, td {
+    border: 1px solid #ddd;
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+
+/* Donation Table Section */
+#donation-table-section {
+    text-align: center;
+    margin-top: 30px;
+}

@@ -10,89 +10,6 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9602963031399783" crossorigin="anonymous"></script>
     
-    <style>
-        /* Loader Style */
-        #loader {
-            display: none;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            margin-left: 10px;
-        }
-
-        /* Spin animation */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Fullscreen output styling */
-        #output.fullscreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: black;
-            color: white;
-            z-index: 999;
-            overflow: auto;
-            padding: 20px;
-            font-size: 16px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Output box */
-        #output {
-            font-family: monospace;
-            white-space: pre-wrap;
-            background: black;
-            padding: 10px;
-            border-radius: 5px;
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid #ddd;
-        }
-
-        /* Button style */
-        #fullscreen-btn {
-            position: relative;
-            z-index: 1000;
-        }
-
-
-        #output {
-            font-family: monospace;
-            white-space: pre-wrap;
-        }
-
-        /* Donation Table Style */
-        table {
-            width: 100%;
-            margin-top: 30px;
-            border-collapse: collapse;
-            font-family: Arial, sans-serif;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-
-        /* Donation Table Section */
-        #donation-table-section {
-            text-align: center;
-            margin-top: 30px;
-        }
-    </style>
 </head>
 <body>
     <div class="main">
@@ -161,7 +78,7 @@
                 <tbody>
                     <tr>
                         <td>Harmanvir Singh</td>
-                        <td>&#8377; 6.9</td>
+                        <td>&#8377;6.9</td>
                         <td>02/02/2025</td>
                     </tr>
                     <tr>
@@ -194,6 +111,38 @@
     </div>
 
     <script>
+    
+    function updateProjects() {
+        const batchYear = document.getElementById("batchYear").value;
+        const semester = document.getElementById("semester").value;
+        const projectDropdown = document.getElementById("project");
+        
+        projectDropdown.innerHTML = ""; // Clear existing options
+        
+        if (batchYear === "2024" && semester === "2") {
+            const projects = [
+                "Calculator with arithmetic operations",
+                "Marks grading system",
+                "ATM system simulation",
+                "Manipulators usage",
+                "Menu-driven array search",
+                "Electricity billing system",
+                "Recursive power calculation",
+                "Player structure with stats",
+                "Swap two numbers using different methods"
+            ];
+            
+            projects.forEach((proj, index) => {
+                let option = document.createElement("option");
+                option.value = `project${index + 1}`;
+                option.textContent = proj;
+                projectDropdown.appendChild(option);
+            });
+        }
+    }
+    
+    // Initialize projects on page load
+    window.onload = updateProjects;
     async function runCode() {
         let name = document.getElementById("name").value.trim();
         let roll = document.getElementById("roll").value.trim();
