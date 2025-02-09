@@ -41,7 +41,7 @@ void playerz() {
 }
 
 int main() {
-    cout << "Amitoshdeep 7038\n\n";
+    // cout << "Amitoshdeep 7038\n\n";
     playerz();
     return 0;
 }
