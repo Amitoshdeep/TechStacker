@@ -39,7 +39,8 @@ class ArrayOps{
 int main(){
 	ArrayOps ob;
 	int choice = 1;
-	while(true){
+	int t = 0;
+	while(t>5){
 		cout<<"\n\n1.Enter elements 2.Display 3.largest 4.Insert 5.Delete 6.Exit \nChoice: ";
 		
 		if(choice == 6){
@@ -60,6 +61,8 @@ int main(){
 		do {
     		choice = rand() % 7 + 1; // Generates numbers between 0 and 6
 		} while (choice == 5);  // Excludes 5
+		
+		t++;
 	}
 	
 }
