@@ -40,7 +40,7 @@ int main(){
 	ArrayOps ob;
 	int choice = 1;
 	int t = 0;
-	while(t>5){
+	while(t<5){
 		cout<<"\n\n1.Enter elements 2.Display 3.largest 4.Insert 5.Delete 6.Exit \nChoice: ";
 		
 		if(choice == 6){
