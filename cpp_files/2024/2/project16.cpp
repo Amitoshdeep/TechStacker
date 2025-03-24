@@ -4,35 +4,35 @@
 using namespace std;
 
 class FunctionCall {
-    int num1, num2;
+    float num1, num2;
 
 public:
     void get() {
         srand(time(0)); // Seed random number generator
-        num1 = rand() % 13 + 5;
-        num2 = rand() % 15 + 3;
+        num1 = static_cast<float>(rand() % 13 + 5);
+        num2 = static_cast<float>(rand() % 15 + 3);
         cout << "Generated numbers: " << num1 << " and " << num2 << endl;
     }
 
-    int add(int a, int b) {
+    float add(float a, float b) {
         return a + b;
     }
 
-    void multiply(int *a, int *b, int *res) {
+    void multiply(float *a, float *b, float *res) {
         *res = (*a) * (*b);
     }
 
-    void divide(int a, int b, int &res) {
+    void divide(float a, float b, float &res) {
         if (b != 0)
             res = a / b;
         else {
             cout << "Error: Division by zero!" << endl;
-            res = 0; // Assign a default value to prevent undefined behavior
+            res = 0.0f; // Assign a default value
         }
     }
 
     void performOperation() {
-        int res;
+        float res;
         cout << "Addition: " << add(num1, num2) << endl;
 
         multiply(&num1, &num2, &res);
@@ -50,4 +50,3 @@ int main() {
 
     return 0;
 }
-
