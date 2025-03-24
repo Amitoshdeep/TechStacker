@@ -52,15 +52,6 @@ button:hover {
     background-color: #218838;
 }
 
-/* #output {
-    background: #222;
-    color: #0f0;
-    padding: 10px;
-    margin-top: 10px;
-    white-space: pre-wrap;
-    border-radius: 4px;
-} */
-
 #output {
     background: #222; 
     color: white; 
@@ -125,7 +116,7 @@ button:hover {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100lvh;
     background: black;
     color: white;
     z-index: 999;
@@ -133,6 +124,7 @@ button:hover {
     padding: 20px;
     font-size: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    max-height: 100vh;
 }
 
 /* Output box */
@@ -142,7 +134,7 @@ button:hover {
     background: black;
     padding: 10px;
     border-radius: 5px;
-    max-height: 300px;
+    max-height: 350px;
     overflow-y: auto;
     border: 1px solid #ddd;
 }
