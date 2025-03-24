@@ -9,8 +9,8 @@ class FunctionCall {
 public:
     void get() {
         srand(time(0)); // Seed random number generator
-        num1 = static_cast<float>(rand() % 13 + 5);
-        num2 = static_cast<float>(rand() % 15 + 3);
+        num1 = static_cast<float>(rand()) / RAND_MAX * 13 + 5; // Generates float in range [5, 18]
+        num2 = static_cast<float>(rand()) / RAND_MAX * 15 + 3; // Generates float in range [3, 18]
         cout << "Generated numbers: " << num1 << " and " << num2 << endl;
     }
 
@@ -23,11 +23,11 @@ public:
     }
 
     void divide(float a, float b, float &res) {
-        if (b != 0)
+        if (b != 0.0f)
             res = a / b;
         else {
             cout << "Error: Division by zero!" << endl;
-            res = 0.0f; // Assign a default value
+            res = 0.0f; // Assign default value
         }
     }
 
